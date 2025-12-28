@@ -1,16 +1,16 @@
 {
   "name": "Claude Code Environment",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
- 
+
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "22"
     },
     "ghcr.io/devcontainers/features/rust:1": {}
   },
- 
+
   "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
- 
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -27,6 +27,7 @@
         "pkief.material-icon-theme"
       ],
       "settings": {
+        "dev.containers.gitCredentialHelperConfigLocation": "none",
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "[python]": {
@@ -35,6 +36,6 @@
       }
     }
   },
- 
+
   "remoteUser": "vscode"
 }
