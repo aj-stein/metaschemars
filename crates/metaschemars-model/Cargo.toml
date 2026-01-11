@@ -9,3 +9,6 @@ description = "Core data model for Metaschema modules"
 serde = { workspace = true }
 thiserror = { workspace = true }
 miette = { workspace = true }
+
+[dev-dependencies]
+serde_yaml = { workspace = true }
