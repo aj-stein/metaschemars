@@ -1,0 +1,11 @@
+[package]
+name = "metaschemars-model"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Core data model for Metaschema modules"
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+miette = { workspace = true }
