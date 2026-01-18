@@ -28,6 +28,7 @@
 | 12 | Wire Up Facade Crate | ✅ Complete |
 | 13 | Add Integration Tests | ✅ Complete |
 | 14 | Final Verification | ⏳ Not started |
+| 15 | Support METASCHEMA: root format | ⏳ Not started |
 
 **Last updated:** 2026-01-18
 
@@ -2120,3 +2121,97 @@ This implementation plan creates a working Metaschema YAML parser in 14 tasks:
 5. **Tasks 13-14**: Integration tests and final verification
 
 Total: ~45 individual steps following TDD practices with commits after each task.
+
+---
+
+## Task 15: Support METASCHEMA: Root Format
+
+**Problem:** The parser currently expects module fields (`schema-name`, `schema-version`, etc.) at the YAML root level. However, the YAML Metaschema format used by metaschema-java wraps module content under a `METASCHEMA:` root key:
+
+```yaml
+# Current supported format (root-level fields):
+schema-name: My Module
+schema-version: "1.0"
+short-name: mymod
+namespace: http://example.com
+
+# YAML Metaschema format (METASCHEMA: wrapper):
+METASCHEMA:
+  schema-name: My Module
+  schema-version: "1.0"
+  short-name: mymod
+  namespace: http://example.com
+  definitions:
+    - object-type: assembly
+      name: my-assembly
+      ...
+```
+
+Additionally, the YAML Metaschema format uses `object-type: assembly|field|flag` instead of `define-assembly:|define-field:|define-flag:` for definitions.
+
+**Files:**
+- Modify: `crates/metaschemars-model/src/types/module.rs`
+- Modify: `crates/metaschemars-model/src/types/definitions/mod.rs`
+- Modify: `crates/metaschemars-yaml/src/parser.rs`
+
+**Step 1: Add wrapper struct for METASCHEMA: format**
+
+Create a wrapper struct that can parse either format:
+
+```rust
+/// Wrapper for YAML Metaschema format with METASCHEMA: root key
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MetaschemaWrapper {
+    #[serde(rename = "METASCHEMA")]
+    pub metaschema: Module,
+}
+```
+
+**Step 2: Update Definition enum to handle object-type format**
+
+The YAML Metaschema format uses:
+```yaml
+definitions:
+  - object-type: assembly
+    name: foo
+```
+
+Instead of:
+```yaml
+definitions:
+  - define-assembly:
+      name: foo
+```
+
+Add custom deserializer to handle both formats.
+
+**Step 3: Update parser to try both formats**
+
+Modify `from_yaml_str` to:
+1. First try parsing as `MetaschemaWrapper` (METASCHEMA: format)
+2. If that fails, try parsing as `Module` (root-level format)
+
+**Step 4: Update integration test**
+
+The test fixture `metaschema-bindings.yaml` should now pass:
+
+```rust
+#[test]
+fn test_parse_metaschema_bindings() {
+    let result = from_yaml_file("tests/fixtures/metaschema-bindings.yaml");
+    assert!(!result.has_errors(), "Unexpected errors: {:?}", result.errors);
+    // ... assertions
+}
+```
+
+**Step 5: Run tests**
+
+Run: `cargo test --workspace`
+Expected: All tests pass including `test_parse_metaschema_bindings`
+
+**Step 6: Commit**
+
+```bash
+git add -A
+git commit -m "feat(yaml): Support METASCHEMA: root format and object-type definitions"
+```
