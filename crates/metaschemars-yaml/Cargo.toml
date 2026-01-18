@@ -1,0 +1,11 @@
+[package]
+name = "metaschemars-yaml"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "YAML parsing for Metaschema modules"
+
+[dependencies]
+metaschemars-model = { path = "../metaschemars-model" }
+serde = { workspace = true }
+serde_yaml = { workspace = true }
