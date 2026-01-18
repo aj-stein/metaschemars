@@ -84,11 +84,11 @@ scope: local
 name: status
 as-type: token
 constraints:
-  - !allowed-values
-    allow-other: no
-    enum:
-      - value: active
-      - value: inactive
+  - allowed-values:
+      allow-other: no
+      enum:
+        - value: active
+        - value: inactive
 "#;
         let flag: DefineFlag = serde_yaml::from_str(yaml).unwrap();
         assert_eq!(flag.constraints.len(), 1);
