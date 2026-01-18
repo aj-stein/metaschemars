@@ -23,13 +23,17 @@
 | 7 | Add Constraints to DefineFlag | ✅ Complete |
 | 8 | Define DefineField | ✅ Complete |
 | 9 | Define DefineAssembly and Model | ✅ Complete |
-| 10 | Define Module (Root Structure) | ⏳ Not started |
-| 11 | Implement YAML Parser | ⏳ Not started |
-| 12 | Wire Up Facade Crate | ⏳ Not started |
-| 13 | Add Integration Tests | ⏳ Not started |
+| 10 | Define Module (Root Structure) | ✅ Complete |
+| 11 | Implement YAML Parser | ✅ Complete |
+| 12 | Wire Up Facade Crate | ✅ Complete |
+| 13 | Add Integration Tests | ✅ Complete |
 | 14 | Final Verification | ⏳ Not started |
 
 **Last updated:** 2026-01-18
+
+**Notes:**
+- Tasks 10-13 implemented custom Serialize/Deserialize for `Definition` and `Constraint` enums to handle Metaschema's object-key YAML format instead of YAML tags
+- 43 tests passing (32 model + 4 yaml + 6 integration + 1 doctest)
 
 ---
 
