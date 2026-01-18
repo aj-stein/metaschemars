@@ -20,9 +20,9 @@
 | 4 | Define Common Types | ✅ Complete |
 | 5 | Define DefineFlag | ✅ Complete |
 | 6 | Define Constraints | ✅ Complete |
-| 7 | Add Constraints to DefineFlag | ⏳ Not started |
-| 8 | Define DefineField | ⏳ Not started |
-| 9 | Define DefineAssembly and Model | ⏳ Not started |
+| 7 | Add Constraints to DefineFlag | ✅ Complete |
+| 8 | Define DefineField | ✅ Complete |
+| 9 | Define DefineAssembly and Model | ✅ Complete |
 | 10 | Define Module (Root Structure) | ⏳ Not started |
 | 11 | Implement YAML Parser | ⏳ Not started |
 | 12 | Wire Up Facade Crate | ⏳ Not started |
