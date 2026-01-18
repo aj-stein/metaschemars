@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::types::{DataType, Markup, Property, Scope};
+use crate::types::{Constraint, DataType, Markup, Property, Scope};
 
 /// A flag definition (leaf node with typed value).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -33,6 +33,9 @@ pub struct DefineFlag {
 
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub props: Vec<Property>,
+
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub constraints: Vec<Constraint>,
 }
 
 #[cfg(test)]
@@ -73,5 +76,21 @@ scope: local
 "#;
         let flag: DefineFlag = serde_yaml::from_str(yaml).unwrap();
         assert_eq!(flag.scope, Some(Scope::Local));
+    }
+
+    #[test]
+    fn test_define_flag_with_constraint() {
+        let yaml = r#"
+name: status
+as-type: token
+constraints:
+  - !allowed-values
+    allow-other: no
+    enum:
+      - value: active
+      - value: inactive
+"#;
+        let flag: DefineFlag = serde_yaml::from_str(yaml).unwrap();
+        assert_eq!(flag.constraints.len(), 1);
     }
 }
