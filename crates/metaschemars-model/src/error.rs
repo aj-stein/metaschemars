@@ -1,7 +1,7 @@
 use miette::{Diagnostic, SourceSpan};
 use thiserror::Error;
 
-#[derive(Error, Diagnostic, Debug, Clone)]
+#[derive(Error, Diagnostic, Debug, Clone, PartialEq)]
 pub enum ParseError {
     #[error("Failed to read file: {path}")]
     IoError {
