@@ -1,0 +1,26 @@
+schema-name: Simple Test Module
+schema-version: "1.0.0"
+short-name: simple
+namespace: http://example.com/simple
+
+definitions:
+  - define-flag:
+      name: id
+      as-type: token
+      formal-name: Identifier
+      description: A unique identifier
+
+  - define-field:
+      name: title
+      as-type: string
+      formal-name: Title
+      description: The title of an item
+
+  - define-assembly:
+      name: item
+      root-name: item
+      formal-name: Item
+      description: A simple item
+      flags:
+        - ref: id
+          required: yes
